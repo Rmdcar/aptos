@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 // 1. OTIMIZAÇÃO DE METADATA (SEO Básico e Avançado)
 export const metadata: Metadata = {
-  title: "Apartamento à Venda em Anápolis | 2 Quartos, 53m² [Nome do Bairro/Condomínio]",
+  title: "Apartamento à Venda em Anápolis | 2 Quartos",
   description: "Excelente oportunidade em Anápolis. Apartamento de 53m², 2 quartos (1 suíte), 1 vaga e documentação 100% regularizada para financiamento bancário. Agende sua visita direto com o proprietário.",
   keywords: ["apartamento a venda anapolis", "comprar apartamento anapolis", "imovel residencial anapolis", "apartamento 2 quartos anapolis"],
 };
