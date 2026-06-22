@@ -40,6 +40,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+<meta name="google-site-verification" content="3hErJbktd4G6zm-WygBd7B9euH4Ir6CnTYchqwx2wMA" />
       {/* HEADER / BARRA DE NAVEGAÇÃO ESTILO PORTAL */}
       <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/70 dark:bg-zinc-950/70 border-b border-zinc-200 dark:border-zinc-800/50 px-6 py-4 flex justify-between items-center">
         <span className="font-bold text-xl tracking-tight text-blue-600 dark:text-blue-400">Meu AP</span>
