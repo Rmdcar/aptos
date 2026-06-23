@@ -43,7 +43,7 @@ async function automatizarBlog() {
 
   // O prompt agora usa a variável ${assuntoEscolhido}
   const prompt = `
-    Aja como um perito contábil e investidor imobiliário experiente que atua em Anápolis, Goiás.
+    Aja como um perito e investidor imobiliário experiente que atua em Anápolis, Goiás.
     Escreva um artigo de blog altamente técnico, persuasivo e focado em SEO sobre o seguinte tema: "${assuntoEscolhido}".
     
     Traga uma visão analítica baseada em dados locais. Quando falar sobre valores ou análises de mercado, ensine o leitor a avaliar o preço do metro quadrado real, reforçando a importância fundamental de excluir os ágios de financiamentos anteriores das pesquisas para não distorcer o valor aritmético final da propriedade. Aborde também impactos de impostos municipais (ITBI, IPTU) quando for pertinente ao tema.
