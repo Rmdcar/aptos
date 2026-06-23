@@ -16,11 +16,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Apartamento à Venda | [Arcos do Paraíso/Condomínio]',
-  description: 'Excelente oportunidade de compra. Imóvel com 53 m², [Y] quartos e documentação 100% regularizada. Agende sua visita.',
+  description: 'Excelente oportunidade de compra. Imóvel com 53 m², [2] quartos e documentação 100% regularizada. Agende sua visita.',
   openGraph: {
     title: 'Apartamento à Venda | [Arcos do Paraíso/Anápolis]',
     description: 'Imóvel com 53 m², 2 quartos e excelente localização.',
-    images: ['/caminho-para-foto-principal-do-imovel.jpg'],
+    images: ['/img1.jpeg'],
   },
 };
 
