@@ -30,16 +30,15 @@ export default function Home() {
 // Substitua seu jsonLd por:
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Apartamento 53m² com 2 Quartos e 1 Vaga - Anápolis",
-  "description": "Apartamento moderno com 53m², 2 dormitórios (1 suíte) e vaga de garagem. Documentação 100% regularizada para financiamento imediato.",
-  "image": "https://apartamentoanapolis.online/img1.jpeg",
+  "@type": "RealEstateListing",
+  "name": "Apartamento à Venda em Anápolis - 53m², 2 Quartos",
+  "description": "Excelente oportunidade em Anápolis. Apartamento de 53m² com 2 quartos (1 suíte) e vaga de garagem.",
+  "url": "https://apartamentoanapolis.online",
+  "datePosted": new Date().toISOString().split('T')[0], // Data de publicação
   "offers": {
     "@type": "Offer",
-    "price": "Preço do imóvel", // ⚠️ Substitua pelo valor real
-    "priceCurrency": "BRL",
-    "availability": "https://schema.org/InStock",
-    "url": "https://apartamentoanapolis.online"
+    "price": "350000",
+    "priceCurrency": "BRL"
   },
   "address": {
     "@type": "PostalAddress",
