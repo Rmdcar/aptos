@@ -28,7 +28,7 @@ function getTodosArtigos() {
       const { data } = matter(conteudoArquivo); 
       
       return {
-        slug: Kahn arquivo.replace('.mdx', ''),
+        slug: arquivo.replace('.mdx', ''),
         titulo: data.titulo || "Artigo sem título",
         resumo: data.resumo || "",
         data: data.data || "",
