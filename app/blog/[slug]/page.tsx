@@ -5,8 +5,17 @@ import matter from "gray-matter";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default function PostagemBlog({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+// Tipagem flexível para suportar tanto Next.js 14 quanto Next.js 15 (Promise)
+interface PageProps {
+  params: Promise<{ slug: string }> | { slug: string };
+}
+
+// Transformamos a função em async para poder dar o 'await' no params
+export default async function PostagemBlog({ params }: PageProps) {
+  
+  // CORREÇÃO 1: Resolve o params de forma segura para qualquer versão do Next.js
+  const resolvedParams = await params;
+  const { slug } = resolvedParams;
   
   const pastaConteudo = path.join(process.cwd(), 'conteudo');
   const caminhoArquivo = path.join(pastaConteudo, `${slug}.mdx`);
@@ -22,6 +31,10 @@ export default function PostagemBlog({ params }: { params: { slug: string } }) {
   // Extrai os dados do topo (data) e o texto completo do artigo (content)
   const { data, content } = matter(conteudoArquivo);
 
+  // CORREÇÃO 2: Suporta chaves em português ou inglês caso a IA varie a resposta
+  const tituloFinal = data.titulo || data.title || "Artigo sem título";
+  const dataFinal = data.data || data.date || "";
+
   return (
     <main className="max-w-3xl mx-auto px-6 py-16 min-h-screen">
       <Link href="/blog" className="text-sm text-blue-600 hover:underline mb-8 inline-block">
@@ -30,12 +43,12 @@ export default function PostagemBlog({ params }: { params: { slug: string } }) {
       
       <header className="mb-8 border-b border-zinc-200 dark:border-zinc-800 pb-6">
         <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 mb-3">
-          {data.titulo}
+          {tituloFinal}
         </h1>
-        <time className="text-sm text-zinc-400">{data.data}</time>
+        <time className="text-sm text-zinc-400">{dataFinal}</time>
       </header>
 
-      {/* Renderiza o texto mantendo as quebras de linha corretas enviadas pelo Gemini */}
+      {/* Renderiza o texto mantendo as quebras de linha corretas */}
       <div className="whitespace-pre-line text-zinc-700 dark:text-zinc-300 space-y-4 text-base sm:text-lg leading-relaxed">
         {content}
       </div>
