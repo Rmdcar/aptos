@@ -1,44 +1,54 @@
 // app/blog/[slug]/page.tsx
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// Normalmente, aqui você faria um "fetch" dos seus textos em um banco 
-// de dados, no Prismic, ou em arquivos Markdown (MDX).
 export default function PostagemBlog({ params }: { params: { slug: string } }) {
-  // O params.slug vai ser exatamente o que está na URL
   const { slug } = params;
+  
+  const pastaConteudo = path.join(process.cwd(), 'conteudo');
+  const caminhoArquivo = path.join(pastaConteudo, `${slug}.mdx`);
 
-  // Renderização simples para o exemplo
+  // Se o arquivo correspondente ao link não existir, joga para página 404
+  if (!fs.existsSync(caminhoArquivo)) {
+    notFound();
+  }
+
+  // Lê o arquivo de texto bruto
+  const conteudoArquivo = fs.readFileSync(caminhoArquivo, 'utf-8');
+  
+  // Extrai os dados do topo (data) e o texto completo do artigo (content)
+  const { data, content } = matter(conteudoArquivo);
+
   return (
-    <article className="max-w-3xl mx-auto px-6 py-16 min-h-screen">
+    <main className="max-w-3xl mx-auto px-6 py-16 min-h-screen">
       <Link href="/blog" className="text-sm text-blue-600 hover:underline mb-8 inline-block">
         ← Voltar para o Blog
       </Link>
       
-      {/* Título Baseado no Slug (Provisório até conectar um banco de dados/MDX) */}
-      <h1 className="text-4xl sm:text-5xl font-extrabold mb-6 tracking-tight">
-        {slug.replace(/-/g, ' ').toUpperCase()}
-      </h1>
-      
-      <div className="prose prose-lg text-zinc-700 max-w-none">
-        <p>Aqui entrará o texto completo de 1000 a 2000 palavras com todas as marcações H2, H3, listas e tabelas que o Google adora ler para posicionar bem o site.</p>
-        
-        <h2>O que você precisa saber primeiro</h2>
-        <p>Desenvolvimento do raciocínio técnico, análise tributária ou dicas de mercado.</p>
-        
-        {/* Call To Action no meio do texto para gerar Vendas */}
-        <div className="bg-blue-50 border-l-4 border-blue-600 p-6 my-8 rounded-r-xl">
-          <h3 className="text-lg font-bold text-blue-800 mb-2 mt-0">Dica Prática</h3>
-          <p className="text-blue-900 text-sm mb-4">
-            Se você está buscando um imóvel que atende exatamente a todos esses critérios para aprovação rápida, confira nossa unidade quitada e pronta para morar.
-          </p>
-          <Link href="/" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition inline-block">
-            Ver Apartamento no Arcos do Paraíso
-          </Link>
-        </div>
-        
-        <p>Conclusão do texto com chamadas fortes para ação.</p>
+      <header className="mb-8 border-b border-zinc-200 dark:border-zinc-800 pb-6">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 mb-3">
+          {data.titulo}
+        </h1>
+        <time className="text-sm text-zinc-400">{data.data}</time>
+      </header>
+
+      {/* Renderiza o texto mantendo as quebras de linha corretas enviadas pelo Gemini */}
+      <div className="whitespace-pre-line text-zinc-700 dark:text-zinc-300 space-y-4 text-base sm:text-lg leading-relaxed">
+        {content}
       </div>
-    </article>
+
+      <div className="mt-16 p-8 bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/50 rounded-3xl text-center">
+        <h3 className="font-bold text-xl mb-2 text-zinc-900 dark:text-zinc-100">Pronto para dar o próximo passo?</h3>
+        <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-sm max-w-md mx-auto">
+          Este apartamento no Condomínio Arcos do Paraíso preenche todos os requisitos de regularidade e valorização detalhados em nossos artigos.
+        </p>
+        <Link href="/" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full text-sm font-semibold transition">
+          Ver Fotos e Preço do Imóvel
+        </Link>
+      </div>
+    </main>
   );
 }
