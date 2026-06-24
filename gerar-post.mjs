@@ -51,8 +51,7 @@ async function automatizarBlog() {
     O formato de saída DEVE ser EXATAMENTE um arquivo MDX válido, incluindo o frontmatter no topo, conforme o modelo abaixo. Não adicione nenhum texto antes ou depois.
 
     ---
-    titulo: "Insira um título chamativo e otimizado para SEO aqui"
-    resumo: "Insira um resumo persuasivo de 2 linhas aqui"
+    titulo: "Insira um título chamativo e otimizado para SEO aqui"    
     data: "${dataHoje}"
     ---
 
