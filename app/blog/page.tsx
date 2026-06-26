@@ -44,7 +44,7 @@ export default function BlogIndex() {
       <Link href="/" className="text-sm text-blue-600 hover:underline mb-6 inline-block">
         ← Voltar para o Apartamento
       </Link>
-      <h1 className="text-4xl font-extrabold mb-4">Blog Imobiliário.</h1>
+      <h1 className="text-4xl font-extrabold mb-4">Blog Imobiliário</h1>
       <p className="text-zinc-600 dark:text-zinc-400 mb-12">Análises e guias para compra, venda e investimentos em Anápolis.</p>
 
       <div className="grid gap-8">
