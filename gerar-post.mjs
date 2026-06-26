@@ -6,94 +6,209 @@ import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 import 'dotenv/config';
 
+// ---------------------------------------------------------
+// 1. CONFIGURAÇÕES INICIAIS E UTILITÁRIOS
+// ---------------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ai = new GoogleGenAI({}); 
+const DOMINIO = "https://apartamentoanapolis.online";
 
-// Função para transformar o título em um link amigável (remove acentos e espaços)
+// Cores para os Logs no Terminal
+const cores = {
+  reset: "\x1b[0m",
+  verde: "\x1b[32m",
+  azul: "\x1b[34m",
+  amarelo: "\x1b[33m",
+  vermelho: "\x1b[31m",
+  ciano: "\x1b[36m"
+};
+
+const log = (msg, cor = cores.reset) => console.log(`${cor}${msg}${cores.reset}`);
+
+// Função para criar Slugs amigáveis sem Date.now()
 function criarSlug(texto) {
   return texto
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-    .replace(/[^a-z0-9]+/g, "-")     // Troca espaços por hífen
-    .replace(/(^-|-$)+/g, "");       // Tira hifens sobrando nas pontas
+    .replace(/[\u0300-\u036f]/g, "") 
+    .replace(/[^a-z0-9]+/g, "-")     
+    .replace(/(^-|-$)+/g, "");       
 }
 
+// ---------------------------------------------------------
+// 2. SISTEMA DE ARQUIVOS E MEMÓRIA DO BLOG (Links e Duplicidade)
+// ---------------------------------------------------------
+function obterArtigosPublicados(pastaConteudo) {
+  if (!fs.existsSync(pastaConteudo)) return [];
+  const arquivos = fs.readdirSync(pastaConteudo).filter(arq => arq.endsWith('.mdx'));
+  return arquivos.map(arq => ({
+    slug: arq.replace('.mdx', ''),
+    url: `${DOMINIO}/blog/${arq.replace('.mdx', '')}`
+  }));
+}
+
+function verificarMudancasGit() {
+  try {
+    const status = execSync('git status --porcelain').toString();
+    return status.trim().length > 0;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ---------------------------------------------------------
+// 3. TOPICAL AUTHORITY (Clusters de Conteúdo)
+// ---------------------------------------------------------
+const clustersDeConteudo = {
+  "Tributario_Juridico": [
+    "O Guia Definitivo do ITBI em Anapolis para Transferencia de Imoveis",
+    "Processos Administrativos de 1ª Instância: Contestacao de IPTU e ITBI",
+    "Certidoes Negativas e Documentacao para Compra de Imoveis Segura"
+  ],
+  "Financiamento_Investimento": [
+    "Como usar o FGTS na compra do primeiro apartamento na planta ou pronto",
+    "Financiamento Caixa vs Itau: Analise de Taxas para Imoveis em Anapolis",
+    "Leiloes de Imoveis da Caixa: Como analisar a avaliacao bancaria e lucrar"
+  ],
+  "Mercado_Local": [
+    "Bairros com maior potencial de valorizacao em Anapolis",
+    "Apartamento Novo versus Usado: Calculando a depreciação e liquidez",
+    "Vantagens de morar no Condominio Arcos do Paraiso em Anapolis"
+  ]
+};
+
+// ---------------------------------------------------------
+// 4. FUNÇÃO PRINCIPAL DE AUTOMAÇÃO
+// ---------------------------------------------------------
 async function automatizarBlog() {
+  log(`\n=================================================`, cores.ciano);
+  log(`🚀 INICIANDO GERADOR DE CONTEÚDO SEO PRO 2026`, cores.ciano);
+  log(`=================================================\n`, cores.ciano);
+
+  const pastaConteudo = path.join(__dirname, 'conteudo');
+  if (!fs.existsSync(pastaConteudo)) fs.mkdirSync(pastaConteudo);
+
+  const artigosPublicados = obterArtigosPublicados(pastaConteudo);
+  const slugsPublicados = artigosPublicados.map(a => a.slug);
+
+  // Seleciona um assunto inédito
+  let assuntoEscolhido = null;
+  let categoriaEscolhida = null;
+  let slugGerado = null;
+
+  for (const [categoria, assuntos] of Object.entries(clustersDeConteudo)) {
+    for (const assunto of assuntos) {
+      const slugTeste = criarSlug(assunto);
+      if (!slugsPublicados.includes(slugTeste)) {
+        assuntoEscolhido = assunto;
+        categoriaEscolhida = categoria;
+        slugGerado = slugTeste;
+        break;
+      }
+    }
+    if (assuntoEscolhido) break;
+  }
+
+  if (!assuntoEscolhido) {
+    log(`⚠️ Todos os tópicos atuais já foram publicados! Adicione novos temas ao cluster.`, cores.amarelo);
+    return;
+  }
+
+  log(`🎯 Pauta selecionada: [${categoriaEscolhida}] ${assuntoEscolhido}`, cores.verde);
+  log(`🔗 Slug reservado: ${slugGerado}`, cores.verde);
+  
+  const linksInternosContexto = artigosPublicados.length > 0 
+    ? `\nLinks de artigos já publicados no blog que VOCÊ DEVE inserir contextualmente no texto:\n${artigosPublicados.map(a => `- ${a.url}`).join('\n')}` 
+    : "\nNenhum artigo publicado ainda para linkagem interna.";
+
+  // ---------------------------------------------------------
+  // ETAPA 1: GERAÇÃO DO DRAFT (Rascunho Focado em EEAT)
+  // ---------------------------------------------------------
+  log(`\n🤖 Etapa 1: Gerando conteúdo avançado (EEAT + 2500 palavras)...`, cores.azul);
+  
   const dataHoje = new Date().toISOString().split('T')[0];
+  const urlCanonica = `${DOMINIO}/blog/${slugGerado}`;
 
-  // 1. SUA LISTA DE PAUTAS (Você pode adicionar quantos assuntos quiser aqui)
-  const listaDeAssuntos = [
-    "Como usar o FGTS na compra do primeiro apartamento",
-    "Qual a documentação necessária para transferência de imóvel",
-    "Bairros com maior potencial de valorização em Anápolis",
-    "Vantagens de comprar um apartamento novo versus usado",
-    "Como financiar um imóvel pela Caixa Econômica",
-    "Dicas de investimento imobiliário: como avaliar o valor de mercado"
-  ];
+  const promptGeracao = `
+    Aja como um Perito Contábil Judicial e Investidor Imobiliário altamente qualificado que atua em Anápolis, Goiás.
+    Escreva um artigo de blog épico, exaustivo e altamente técnico (objetivando 2.500 a 3.500 palavras) sobre: "${assuntoEscolhido}".
 
-  // 2. ESCOLHE UM ASSUNTO ALEATÓRIO DA LISTA
-  const assuntoEscolhido = listaDeAssuntos[Math.floor(Math.random() * listaDeAssuntos.length)];
-  
-  // 3. GERA A URL DINÂMICA BASEADA NO ASSUNTO
-  const slug = `${criarSlug(assuntoEscolhido)}-${Date.now()}`;
-  
-  console.log(`🤖 1. Solicitando artigo ao Gemini sobre: "${assuntoEscolhido}"...`);
+    DIRETRIZES DE SEO E EEAT (Google Helpful Content 2026):
+    - Traga uma visão pericial: ensine o leitor a realizar cálculos e avaliar o preço do metro quadrado real, excluindo ágios de financiamentos anteriores para não distorcer a média aritmética.
+    - Cite referências de autoridades (ex: Prefeitura de Anápolis, regras da Caixa Econômica, Código Civil).
+    - Crie uma seção de FAQ no final com perguntas e respostas diretas.
+    - Inclua código JSON-LD (Schema.org) no final do arquivo contendo 'Article', 'FAQPage' e 'BreadcrumbList'.
+    ${linksInternosContexto}
 
-  // O prompt agora usa a variável ${assuntoEscolhido}
-  const prompt = `
-    Aja como um perito e investidor imobiliário experiente que atua em Anápolis, Goiás.
-    Escreva um artigo de blog altamente técnico, persuasivo e focado em SEO sobre o seguinte tema: "${assuntoEscolhido}".
-    
-    Traga uma visão analítica baseada em dados locais. Quando falar sobre valores ou análises de mercado, ensine o leitor a avaliar o preço do metro quadrado real, reforçando a importância fundamental de excluir os ágios de financiamentos anteriores das pesquisas para não distorcer o valor aritmético final da propriedade. Aborde também impactos de impostos municipais (ITBI, IPTU) quando for pertinente ao tema.
-    
-    O formato de saída DEVE ser EXATAMENTE um arquivo MDX válido, incluindo o frontmatter no topo, conforme o modelo abaixo. Não adicione nenhum texto antes ou depois.
-
+    REGRAS DE FORMATAÇÃO MDX:
+    O texto DEVE ser retornado com este Frontmatter exato no topo:
     ---
-    titulo: "Insira um título chamativo e otimizado para SEO aqui"    
-    data: "${dataHoje}"
+    title: "Título SEO otimizado com a palavra-chave"
+    description: "Meta description persuasiva com CTA (máx 155 caracteres)"
+    slug: "${slugGerado}"
+    canonical: "${urlCanonica}"
+    date: "${dataHoje}"
+    category: "${categoriaEscolhida}"
+    keywords: "palavra chave principal, secundaria 1, secundaria 2"
     ---
-
-    # Seu conteúdo começa aqui com Markdown...
+    
+    [Inicie o texto em Markdown (##, ###, listas, tabelas) logo após os traços do frontmatter]
+    [Adicione a tag <script type="application/ld+json"> no final com o JSON-LD]
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
+    const draftResponse = await ai.models.generateContent({
+      model: 'gemini-2.5-flash', // Usando Flash por ser mais rápido e lidar bem com textos longos
+      contents: promptGeracao,
     });
 
-    let conteudoMdx = response.text;
+    let draftMdx = draftResponse.text;
 
-    // Limpeza robusta das marcações de código
-    conteudoMdx = conteudoMdx.trim();
-    conteudoMdx = conteudoMdx.replace(/^```(mdx|markdown|md)?\s*/i, '');
-    conteudoMdx = conteudoMdx.replace(/\s*```$/i, '');
-    conteudoMdx = conteudoMdx.trim();
-
-    console.log("✅ 2. Artigo gerado! Salvando arquivo...");
-
-    const pastaConteudo = path.join(__dirname, 'conteudo');
+    // ---------------------------------------------------------
+    // ETAPA 2: REVISÃO E POLIMENTO AUTOMÁTICO
+    // ---------------------------------------------------------
+    log(`\n🕵️ Etapa 2: Revisando qualidade técnica, links e formatação...`, cores.amarelo);
     
-    if (!fs.existsSync(pastaConteudo)){
-        fs.mkdirSync(pastaConteudo);
+    const promptRevisao = `
+      Você é um editor-chefe de SEO. Revise o artigo MDX abaixo.
+      Sua tarefa é APENAS corrigir possíveis erros gramaticais, garantir que o tom seja de um Perito Contábil experiente, verificar se o Frontmatter está intacto e se a tag de JSON-LD está fechada corretamente no final.
+      
+      Regra de Ouro: Retorne O ARQUIVO MDX COMPLETO REVISADO, mantendo o frontmatter. Remova qualquer formatação externa de crases (\`\`\`mdx).
+      
+      ARTIGO PARA REVISÃO:
+      ${draftMdx}
+    `;
+
+    const revisaoResponse = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: promptRevisao,
+    });
+
+    let conteudoFinal = revisaoResponse.text.trim();
+    conteudoFinal = conteudoFinal.replace(/^```(mdx|markdown|md)?\s*/i, '').replace(/\s*```$/i, '').trim();
+
+    // ---------------------------------------------------------
+    // ETAPA 3: SALVAMENTO LOCAL E COMMIT INTELIGENTE
+    // ---------------------------------------------------------
+    const caminhoArquivo = path.join(pastaConteudo, `${slugGerado}.mdx`);
+    fs.writeFileSync(caminhoArquivo, conteudoFinal);
+    
+    log(`\n💾 Etapa 3: Arquivo salvo com sucesso em: ${caminhoArquivo}`, cores.verde);
+
+    if (verificarMudancasGit()) {
+      log(`🚀 Etapa 4: Alterações detectadas. Iniciando push para o GitHub...`, cores.azul);
+      execSync('git add .');
+      execSync(`git commit -m "feat(blog): publica artigo SEO otimizado - ${slugGerado}"`);
+      execSync('git push origin main'); // Mude para 'master' se necessário
+      log(`\n🎉 SUCESSO! Artigo no ar e site em processo de build na Vercel!`, cores.verde);
+    } else {
+      log(`\n🛑 Commit ignorado: Nenhuma alteração real detectada nos arquivos.`, cores.amarelo);
     }
 
-    const caminhoArquivo = path.join(pastaConteudo, `${slug}.mdx`);
-    fs.writeFileSync(caminhoArquivo, conteudoMdx);
-
-    console.log(`📝 3. Arquivo salvo em: ${caminhoArquivo}`);
-    console.log("🚀 4. Enviando para o GitHub para atualizar o site live...");
-
-    execSync('git add .');
-    execSync(`git commit -m "Auto-post: Artigo gerado sobre ${assuntoEscolhido}"`);
-    execSync('git push origin main'); 
-
-    console.log("🎉 Sucesso! O site já está sendo atualizado pela Vercel.");
-
   } catch (erro) {
-    console.error("❌ Ocorreu um erro:", erro);
+    log(`\n❌ ERRO FATAL: ${erro.message}`, cores.vermelho);
+    console.error(erro);
   }
 }
 
