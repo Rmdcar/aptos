@@ -28,28 +28,34 @@ export default async function PostagemBlog({ params }: PageProps) {
   const dataFinal = data.data || data.date || "";
 
   // ----------------------------------------------------------------------
-  // NOVA LÓGICA: EXTRAÇÃO DO JSON-LD
+  // LÓGICA BLINDADA: EXTRAÇÃO DO JSON-LD
   // ----------------------------------------------------------------------
-  // 1. Procuramos pela tag <script type="application/ld+json"> no texto
-  const regexScript = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/i;
-  const match = content.match(regexScript);
-
   let jsonLdContent = null;
 
-  if (match && match[1]) {
-    // 2. Extraímos apenas o recheio do JSON
-    jsonLdContent = match[1].trim(); 
-    // 3. Removemos completamente o bloco de script do texto visível
-    content = content.replace(regexScript, ''); 
+  // 1. Captura a tag <script> independente de aspas simples, duplas ou espaços
+  const regexScript = /<script[^>]*type=['"]application\/ld\+json['"][^>]*>([\s\S]*?)<\/script>/i;
+  const matchScript = content.match(regexScript);
+
+  if (matchScript) {
+    jsonLdContent = matchScript[1].trim();
+    content = content.replace(matchScript[0], ''); // Remove exatamente o que encontrou
+  } else {
+    // 2. Fallback: Se a IA não usou a tag HTML e mandou só um bloco markdown ```json com os dados do Google
+    const regexJson = /```json\s*(\{[\s\S]*"\@context"[\s\S]*\})\s*```/i;
+    const matchJson = content.match(regexJson);
+    if (matchJson) {
+      jsonLdContent = matchJson[1].trim();
+      content = content.replace(matchJson[0], '');
+    }
   }
+
+  // 3. Limpeza Final: Remove marcações vazias como ```html que possam ter sobrado após o recorte
+  content = content.replace(/```(?:html|json|javascript)?\s*```/gi, '');
   // ----------------------------------------------------------------------
 
   return (
     <main className="max-w-3xl mx-auto px-6 py-16 min-h-screen">
       
-      {/* Injeta o JSON-LD nativamente no topo da página. 
-        Ele fica 100% invisível na tela, mas aparece no código-fonte pro Google! 
-      */}
       {jsonLdContent && (
         <script
           type="application/ld+json"
@@ -68,7 +74,6 @@ export default async function PostagemBlog({ params }: PageProps) {
         <time className="text-sm text-zinc-400">{dataFinal}</time>
       </header>
 
-      {/* O ReactMarkdown agora recebe o texto 100% limpo, sem o bloco do <script> */}
       <article className="prose prose-lg prose-blue dark:prose-invert max-w-none">
         <ReactMarkdown>{content}</ReactMarkdown>
       </article>
