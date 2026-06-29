@@ -392,9 +392,7 @@ No final do arquivo gere:
 
 incluindo:
 
-- Article
-- FAQPage
-- BreadcrumbList
+- Article, FAQPage e BreadcrumbList
 
 Todos os campos devem estar preenchidos corretamente.
 
