@@ -26,10 +26,10 @@ function getUltimosArtigos() {
       const { data } = matter(conteudoArquivo); 
       
       return {
-        slug: arquivo.replace('.mdx', ''), // Tira a extensão para virar a URL
-        titulo: data.titulo || "Artigo sem título",
+        slugGerado: arquivo.replace('.mdx', ''), // Tira a extensão para virar a URL
+        titulo: data.title || "Artigo sem título",
         resumo: data.resumo || "",
-        dataPublicacao: new Date(data.data || Date.now()) 
+        dataPublicacao: new Date(data.date || Date.now()) 
       };
     });
 
@@ -217,12 +217,12 @@ export default async function Home() {
             {ultimosArtigos.length > 0 ? (
               // Se tiver arquivos na pasta 'conteudo', ele cria as caixas dinamicamente
               ultimosArtigos.map((artigo) => (
-                <div key={artigo.slug} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
+                <div key={artigo.slugGerado} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
                   <h3 className="font-bold text-base text-blue-600 dark:text-blue-400 mb-2">{artigo.titulo}</h3>
                   <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
                     {artigo.resumo}
                   </p>
-                  <Link href={`/blog/${artigo.slug}`} className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1">
+                  <Link href={`/blog/${artigo.slugGerado}`} className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1">
                     Ler artigo completo <span>→</span>
                   </Link>
                 </div>

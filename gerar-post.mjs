@@ -131,7 +131,7 @@ async function automatizarBlog() {
   const urlCanonica = `${DOMINIO}/blog/${slugGerado}`;
 
   const promptGeracao = `
-    Aja como um Perito Contábil Judicial e Investidor Imobiliário altamente qualificado que atua em Anápolis, Goiás.
+    Aja como um Investidor Imobiliário altamente qualificado que atua em Anápolis, Goiás.
     Escreva um artigo de blog épico, exaustivo e altamente técnico (objetivando 2.500 a 3.500 palavras) sobre: "${assuntoEscolhido}".
 
     DIRETRIZES DE SEO E EEAT (Google Helpful Content 2026):
@@ -172,7 +172,7 @@ async function automatizarBlog() {
     
     const promptRevisao = `
       Você é um editor-chefe de SEO. Revise o artigo MDX abaixo.
-      Sua tarefa é APENAS corrigir possíveis erros gramaticais, garantir que o tom seja de um Perito Contábil experiente, verificar se o Frontmatter está intacto e se a tag de JSON-LD está fechada corretamente no final.
+      Sua tarefa é APENAS corrigir possíveis erros gramaticais, garantir que o tom seja de investidor experiente, verificar se o Frontmatter está intacto e se a tag de JSON-LD está fechada corretamente no final.
       
       Regra de Ouro: Retorne O ARQUIVO MDX COMPLETO REVISADO, mantendo o frontmatter. Remova qualquer formatação externa de crases (\`\`\`mdx).
       

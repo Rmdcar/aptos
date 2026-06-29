@@ -28,10 +28,10 @@ function getTodosArtigos() {
       const { data } = matter(conteudoArquivo); 
       
       return {
-        slug: arquivo.replace('.mdx', ''),
-        titulo: data.titulo || "Artigo sem título",
+        slugGerado: arquivo.replace('.mdx', ''),
+        titulo: data.title || "Artigo sem título",
         resumo: data.resumo || "",
-        data: data.data || "",
+        data: data.date || "",
       };
     });
 }
@@ -50,15 +50,15 @@ export default function BlogIndex() {
       <div className="grid gap-8">
         {artigos.length > 0 ? (
           artigos.map((artigo) => (
-            <article key={artigo.slug} className="border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl hover:shadow-lg transition-shadow bg-white dark:bg-zinc-900">
+            <article key={artigo.slugGerado} className="border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl hover:shadow-lg transition-shadow bg-white dark:bg-zinc-900">
               <time className="text-xs text-blue-600 dark:text-blue-400 font-semibold mb-2 block">{artigo.data}</time>
               <h2 className="text-2xl font-bold mb-3">
-                <Link href={`/blog/${artigo.slug}`} className="hover:text-blue-600 transition-colors">
+                <Link href={`/blog/${artigo.slugGerado}`} className="hover:text-blue-600 transition-colors">
                   {artigo.titulo}
                 </Link>
               </h2>
               <p className="text-zinc-600 dark:text-zinc-400 mb-4 text-sm">{artigo.resumo}</p>
-              <Link href={`/blog/${artigo.slug}`} className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+              <Link href={`/blog/${artigo.slugGerado}`} className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline">
                 Ler artigo completo →
               </Link>
             </article>
