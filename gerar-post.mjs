@@ -146,7 +146,7 @@ async function automatizarBlog() {
     ---
     title: "Título SEO otimizado com a palavra-chave"
     description: "Meta description persuasiva com CTA (máx 155 caracteres)"
-    slug: "${slugGerado}"
+    slugGerado: "${slugGerado}"
     canonical: "${urlCanonica}"
     date: "${dataHoje}"
     category: "${categoriaEscolhida}"
