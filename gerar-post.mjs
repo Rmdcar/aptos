@@ -61,20 +61,82 @@ function verificarMudancasGit() {
 // 3. TOPICAL AUTHORITY (Clusters de Conteúdo)
 // ---------------------------------------------------------
 const clustersDeConteudo = {
-  "Tributario_Juridico": [
-    "O Guia Definitivo do ITBI em Anapolis para Transferencia de Imoveis",
-    "Processos Administrativos de 1ª Instância: Contestacao de IPTU e ITBI",
-    "Certidoes Negativas e Documentacao para Compra de Imoveis Segura"
+  "Minha_Casa_Minha_Vida": [
+    "Minha Casa Minha Vida em Anapolis: Guia Completo para Comprar em 2026",
+    "Quem pode financiar pelo Minha Casa Minha Vida em Anapolis",
+    "Documentos necessarios para comprar apartamento pelo Minha Casa Minha Vida",
+    "Como funciona a entrada no Minha Casa Minha Vida",
+    "Como usar o FGTS para comprar apartamento Minha Casa Minha Vida",
+    "Quanto preciso ganhar para financiar um apartamento pela Caixa",
+    "Como simular financiamento Minha Casa Minha Vida",
+    "Quanto fica a parcela de um apartamento MRV",
+    "Vale a pena comprar apartamento pelo Minha Casa Minha Vida",
+    "Erros que podem reprovar seu financiamento imobiliario"
   ],
-  "Financiamento_Investimento": [
-    "Como usar o FGTS na compra do primeiro apartamento na planta ou pronto",
-    "Financiamento Caixa vs Itau: Analise de Taxas para Imoveis em Anapolis",
-    "Leiloes de Imoveis da Caixa: Como analisar a avaliacao bancaria e lucrar"
+
+  "Apartamentos_MRV": [
+    "Apartamento MRV vale a pena em 2026",
+    "Como funciona a compra de um apartamento MRV",
+    "Apartamento MRV na planta ou pronto: qual escolher",
+    "Condominios MRV em Anapolis: guia completo",
+    "Custos para morar em apartamento MRV",
+    "Taxa de condominio MRV: quanto custa",
+    "Como funciona a entrega das chaves da MRV",
+    "Apartamento MRV para morar ou investir",
+    "O que verificar antes de comprar um apartamento MRV",
+    "Vantagens e desvantagens dos apartamentos MRV"
   ],
-  "Mercado_Local": [
-    "Bairros com maior potencial de valorizacao em Anapolis",
-    "Apartamento Novo versus Usado: Calculando a depreciação e liquidez",
-    "Vantagens de morar no Condominio Arcos do Paraiso em Anapolis"
+
+  "Financiamento_Imobiliario": [
+    "Como funciona o financiamento imobiliario Caixa",
+    "Quanto preciso dar de entrada para comprar um apartamento",
+    "Financiamento Caixa ou Itau: qual vale mais a pena",
+    "Como aumentar as chances de aprovacao no financiamento",
+    "O que diminui o valor aprovado pela Caixa",
+    "Como funciona a avaliacao do imovel pela Caixa",
+    "Posso financiar mesmo com nome negativado",
+    "Financiamento SAC ou PRICE: qual escolher",
+    "Primeiro apartamento financiado: guia completo",
+    "Tudo sobre financiamento de apartamento para iniciantes"
+  ],
+
+  "Custos_da_Compra": [
+    "Quanto custa comprar um apartamento alem da entrada",
+    "ITBI na compra do apartamento: como calcular",
+    "Registro do imovel: quanto custa",
+    "Escritura ou registro: qual a diferenca",
+    "Quais taxas devo pagar ao comprar um apartamento",
+    "Como economizar nos custos da compra do primeiro imovel",
+    "Quem paga o ITBI",
+    "Quanto custa transferir um apartamento",
+    "Checklist financeiro para comprar apartamento",
+    "Despesas mensais de quem mora em apartamento"
+  ],
+
+  "Mercado_Imobiliario_Anapolis": [
+    "Melhores bairros para comprar apartamento em Anapolis",
+    "Onde comprar apartamento barato em Anapolis",
+    "Apartamento novo ou usado em Anapolis",
+    "Bairros com maior potencial de valorizacao",
+    "Vale a pena comprar apartamento em Anapolis",
+    "Mercado imobiliario de Anapolis em 2026",
+    "Quanto custa um apartamento em Anapolis",
+    "Como escolher o melhor bairro para morar",
+    "Apartamento para investir em Anapolis",
+    "Tendencias do mercado imobiliario em Anapolis"
+  ],
+
+  "Condominio_Arcos_do_Paraiso": [
+    "Condominio Arcos do Paraiso vale a pena",
+    "Como e morar no Arcos do Paraiso",
+    "Apartamento a venda no Arcos do Paraiso",
+    "Quanto custa um apartamento no Arcos do Paraiso",
+    "Infraestrutura do Condominio Arcos do Paraiso",
+    "Taxa de condominio do Arcos do Paraiso",
+    "Seguranca do Condominio Arcos do Paraiso",
+    "Localizacao do Arcos do Paraiso",
+    "Vantagens de morar no Arcos do Paraiso",
+    "Guia completo do Condominio Arcos do Paraiso"
   ]
 };
 
@@ -130,32 +192,217 @@ async function automatizarBlog() {
   const dataHoje = new Date().toISOString().split('T')[0];
   const urlCanonica = `${DOMINIO}/blog/${slugGerado}`;
 
-  const promptGeracao = `
-    Aja como um Investidor Imobiliário altamente qualificado que atua em Anápolis, Goiás.
-    Escreva um artigo de blog épico, exaustivo e altamente técnico (objetivando 2.500 a 3.500 palavras) sobre: "${assuntoEscolhido}".
+const promptGeracao = `
+Você é um especialista em SEO, copywriting e mercado imobiliário de Anápolis-GO.
 
-    DIRETRIZES DE SEO E EEAT (Google Helpful Content 2026):
-    - Traga uma visão pericial: ensine o leitor a realizar cálculos e avaliar o preço do metro quadrado real, excluindo ágios de financiamentos anteriores para não distorcer a média aritmética.
-    - Cite referências de autoridades (ex: Prefeitura de Anápolis, regras da Caixa Econômica, Código Civil).
-    - Crie uma seção de FAQ no final com perguntas e respostas diretas.
-    - Inclua código JSON-LD (Schema.org) no final do arquivo contendo 'Article', 'FAQPage' e 'BreadcrumbList'.
-    ${linksInternosContexto}
+Seu objetivo é criar o melhor conteúdo existente na internet para responder completamente à intenção de busca do usuário.
 
-    REGRAS DE FORMATAÇÃO MDX:
-    O texto DEVE ser retornado com este Frontmatter exato no topo:
-    ---
-    title: "Título SEO otimizado com a palavra-chave"
-    description: "Meta description persuasiva com CTA (máx 155 caracteres)"
-    slugGerado: "${slugGerado}"
-    canonical: "${urlCanonica}"
-    date: "${dataHoje}"
-    category: "${categoriaEscolhida}"
-    keywords: "palavra chave principal, secundaria 1, secundaria 2"
-    ---
-    
-    [Inicie o texto em Markdown (##, ###, listas, tabelas) logo após os traços do frontmatter]
-    [Adicione a tag <script type="application/ld+json"> no final com o JSON-LD]
-  `;
+Escreva um artigo original, profundo e atualizado sobre:
+
+"${assuntoEscolhido}"
+
+O artigo deve possuir entre 2.800 e 4.000 palavras.
+
+===========================
+OBJETIVO
+===========================
+
+O conteúdo deve ser capaz de disputar as primeiras posições do Google para a palavra-chave principal.
+
+O público-alvo são pessoas que desejam:
+
+- comprar o primeiro apartamento;
+- financiar um imóvel pela Caixa;
+- comprar apartamento Minha Casa Minha Vida;
+- comprar apartamento MRV;
+- comprar apartamento em Anápolis.
+
+Sempre escreva pensando em intenção de compra.
+
+Nunca escreva como advogado.
+
+Nunca escreva como jornalista.
+
+Escreva como um consultor imobiliário experiente.
+
+===========================
+SEO
+===========================
+
+A palavra-chave principal deve aparecer:
+
+- no título
+- na introdução
+- em um H2
+- em vários H3
+- na conclusão
+- na meta description
+
+Utilize naturalmente dezenas de palavras relacionadas, como:
+
+- apartamento MRV
+- Minha Casa Minha Vida
+- apartamento em Anápolis
+- financiamento Caixa
+- FGTS
+- entrada do imóvel
+- apartamento novo
+- condomínio
+- parcelas
+- imóvel financiado
+- primeiro apartamento
+- avaliação da Caixa
+- Arcos do Paraíso
+
+Escreva utilizando SEO semântico.
+
+Nunca faça keyword stuffing.
+
+===========================
+ESTRUTURA
+===========================
+
+O artigo deve conter:
+
+# Introdução
+
+Uma introdução envolvente mostrando o problema e prometendo a solução.
+
+Depois desenvolva entre 8 e 15 seções H2.
+
+Cada H2 deve conter diversos H3.
+
+Inclua:
+
+- listas
+- bullet points
+- tabelas
+- comparativos
+- checklists
+- exemplos reais
+- dicas práticas
+- erros comuns
+- vantagens
+- desvantagens
+
+Inclua uma tabela comparativa sempre que fizer sentido.
+
+===========================
+FEATURED SNIPPETS
+===========================
+
+Crie diversas respostas curtas (40–60 palavras) para perguntas comuns do Google.
+
+Exemplos:
+
+"O que é..."
+
+"Vale a pena..."
+
+"Quanto custa..."
+
+"Como funciona..."
+
+"Quem pode..."
+
+===========================
+EEAT
+===========================
+
+Sempre cite fontes oficiais quando apropriado:
+
+- Caixa Econômica Federal
+- Prefeitura de Anápolis
+- Governo Federal
+- Código Civil
+- Registro de Imóveis
+- Banco Central
+
+Nunca invente dados.
+
+Quando não houver dado oficial, deixe isso claro.
+
+===========================
+CONVERSÃO
+===========================
+
+Ao longo do texto incentive naturalmente o leitor a:
+
+- simular financiamento
+- utilizar FGTS
+- visitar apartamentos
+- conhecer o Condomínio Arcos do Paraíso
+- entrar em contato
+
+O CTA deve parecer natural.
+
+===========================
+LINKAGEM INTERNA
+===========================
+
+${linksInternosContexto}
+
+Sempre utilize os links internos quando fizer sentido.
+
+===========================
+FORMATAÇÃO MDX
+===========================
+
+Retorne exatamente este Frontmatter:
+
+---
+title: "Título SEO otimizado"
+description: "Meta description com até 155 caracteres"
+slugGerado: "${slugGerado}"
+canonical: "${urlCanonica}"
+date: "${dataHoje}"
+category: "${categoriaEscolhida}"
+keywords: "palavra chave principal, secundaria 1, secundaria 2"
+---
+
+Depois escreva apenas Markdown.
+
+Utilize:
+
+# H1
+
+## H2
+
+### H3
+
+Tabelas em Markdown.
+
+Listas.
+
+Caixas de destaque usando blockquote.
+
+No final inclua:
+
+1. Conclusão
+2. FAQ com pelo menos 10 perguntas
+3. CTA final
+
+===========================
+SCHEMA
+===========================
+
+No final do arquivo gere:
+
+<script type="application/ld+json">
+
+incluindo:
+
+- Article
+- FAQPage
+- BreadcrumbList
+
+Todos os campos devem estar preenchidos corretamente.
+
+Não explique o que está fazendo.
+
+Retorne apenas o arquivo MDX.
+`;
+
 
   try {
     const draftResponse = await ai.models.generateContent({
