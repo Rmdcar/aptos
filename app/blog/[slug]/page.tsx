@@ -4,7 +4,7 @@ import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown"; // 1. Importamos o tradutor aqui
+import ReactMarkdown from "react-markdown";
 
 interface PageProps {
   params: Promise<{ slug: string }> | { slug: string };
@@ -22,13 +22,41 @@ export default async function PostagemBlog({ params }: PageProps) {
   }
 
   const conteudoArquivo = fs.readFileSync(caminhoArquivo, 'utf-8');
-  const { data, content } = matter(conteudoArquivo);
+  let { data, content } = matter(conteudoArquivo);
 
   const tituloFinal = data.titulo || data.title || "Artigo sem título";
   const dataFinal = data.data || data.date || "";
 
+  // ----------------------------------------------------------------------
+  // NOVA LÓGICA: EXTRAÇÃO DO JSON-LD
+  // ----------------------------------------------------------------------
+  // 1. Procuramos pela tag <script type="application/ld+json"> no texto
+  const regexScript = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/i;
+  const match = content.match(regexScript);
+
+  let jsonLdContent = null;
+
+  if (match && match[1]) {
+    // 2. Extraímos apenas o recheio do JSON
+    jsonLdContent = match[1].trim(); 
+    // 3. Removemos completamente o bloco de script do texto visível
+    content = content.replace(regexScript, ''); 
+  }
+  // ----------------------------------------------------------------------
+
   return (
     <main className="max-w-3xl mx-auto px-6 py-16 min-h-screen">
+      
+      {/* Injeta o JSON-LD nativamente no topo da página. 
+        Ele fica 100% invisível na tela, mas aparece no código-fonte pro Google! 
+      */}
+      {jsonLdContent && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdContent }}
+        />
+      )}
+
       <Link href="/blog" className="text-sm text-blue-600 hover:underline mb-8 inline-block">
         ← Voltar para o Blog
       </Link>
@@ -40,7 +68,7 @@ export default async function PostagemBlog({ params }: PageProps) {
         <time className="text-sm text-zinc-400">{dataFinal}</time>
       </header>
 
-      {/* 2. Aqui a mágica acontece: usamos a classe 'prose' e o <ReactMarkdown> */}
+      {/* O ReactMarkdown agora recebe o texto 100% limpo, sem o bloco do <script> */}
       <article className="prose prose-lg prose-blue dark:prose-invert max-w-none">
         <ReactMarkdown>{content}</ReactMarkdown>
       </article>
