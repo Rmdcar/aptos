@@ -39,7 +39,7 @@ function getUltimosArtigos() {
     .slice(0, 4);
 }
 
-// 2. OTIMIZAÇÃO DE METADATA (Manteve-se igual)
+// 2. OTIMIZAÇÃO DE METADATA
 export const metadata: Metadata = {
   title: "Apartamento Novo em Anápolis - 53,45m², 2 Qts | Condomínio Arcos do Paraíso",
   description: "Oportunidade de venda rápida em Anápolis. Apartamento novo (nunca habitado) de R$ 200 mil por R$ 190.000. Quitado, escriturado e pronto para financiar ou usar FGTS.",
@@ -102,7 +102,7 @@ export default async function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <meta name="google-site-verification" content="3hErJbktd4G6zm-WygBd7B9euH4Ir6CnTYchqwx2wMA" />
       
-      {/* HEADER MANTIDO IGUAL... */}
+      {/* HEADER */}
       <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/70 dark:bg-zinc-950/70 border-b border-zinc-200 dark:border-zinc-800/50 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <span className="font-bold text-xl tracking-tight text-blue-600 dark:text-blue-400">Meu AP</span>
@@ -120,7 +120,7 @@ export default async function Home() {
         </div>
       </header>
       
-      {/* HERO SECTION MANTIDA IGUAL... */}
+      {/* HERO SECTION */}
       <main className="flex flex-col items-center justify-center w-full pt-16 pb-12 px-6 text-center max-w-5xl mx-auto">
         <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-3 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/40 rounded-full">
           Preço Reduzido para Venda Rápida
@@ -159,7 +159,7 @@ export default async function Home() {
         </div>
       </main>
 
-      {/* SEÇÃO DE INFRAESTRUTURA E GALERIA MANTIDA IGUAL... */}
+      {/* SEÇÃO DE INFRAESTRUTURA */}
       <section className="w-full max-w-5xl mx-auto py-12 px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center border-t border-zinc-200 dark:border-zinc-800/50">
         <div className="flex flex-col items-center justify-center p-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800"><span className="text-3xl font-extrabold text-blue-600 dark:text-blue-400">2</span><span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mt-1">Dormitórios amplos</span></div>
         <div className="flex flex-col items-center justify-center p-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800"><span className="text-3xl font-extrabold text-blue-600 dark:text-blue-400">53,45m²</span><span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mt-1">Área Privativa</span></div>
@@ -167,6 +167,7 @@ export default async function Home() {
         <div className="flex flex-col items-center justify-center p-4 bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800"><span className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">✓</span><span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mt-1">Quitado / Matrícula OK</span></div>
       </section>
 
+      {/* GALERIA DE IMAGENS */}
       <section className="w-full max-w-5xl mx-auto py-16 px-6 border-t border-zinc-200 dark:border-zinc-800/50">
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">Imagens Reais do Imóvel</h2>
         <p className="text-zinc-500 dark:text-zinc-400 mb-8">Confira os detalhes internos, acabamento e a estrutura do condomínio padrão MRV.</p>
@@ -180,6 +181,7 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* SOBRE A PROPRIEDADE */}
       <section className="w-full max-w-5xl mx-auto py-12 px-6 border-t border-zinc-200 dark:border-zinc-800/50 grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>
           <h2 className="text-2xl font-bold mb-4">Sobre a Propriedade</h2>
@@ -205,7 +207,42 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 3. CENTRAL DE CONTEÚDO DINÂMICA (Lê os arquivos MDX) */}
+      {/* SEÇÃO DE LOCALIZAÇÃO DO GOOGLE MAPS */}
+      <section className="w-full max-w-5xl mx-auto py-16 px-6 border-t border-zinc-200 dark:border-zinc-800/50">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2 text-center">Localização do Imóvel</h2>
+        <p className="text-zinc-500 dark:text-zinc-400 text-center mb-8">
+          Condomínio Arcos do Paraíso, Anápolis - GO
+        </p>
+        
+        {/* Contêiner do Mapa */}
+        <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-zinc-200 dark:bg-zinc-800 rounded-2xl overflow-hidden shadow-sm border border-zinc-200/60 dark:border-zinc-800/60 relative mb-6">
+          <iframe
+            src="https://maps.app.goo.gl/RUaHH3yDsCxG34JK7"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen={true}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="absolute inset-0"
+          ></iframe>
+        </div>
+
+        {/* Botão para abrir em nova guia (Fallback de segurança) */}
+        <div className="text-center">
+          <a
+            href="https://maps.app.goo.gl/RUaHH3yDsCxG34JK7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full text-sm transition-transform hover:scale-105 shadow-md"
+          >
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
+            Abrir Rota no Google Maps
+          </a>
+        </div>
+      </section>
+
+      {/* 3. CENTRAL DE CONTEÚDO DINÂMICA */}
       <section className="w-full max-w-5xl mx-auto py-16 px-6 border-t border-zinc-200 dark:border-zinc-800/50 bg-zinc-100/40 dark:bg-zinc-900/20 rounded-3xl my-12">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-extrabold tracking-tight mb-3 text-center">Guia do Comprador: Mercado Imobiliário em Anápolis</h2>
