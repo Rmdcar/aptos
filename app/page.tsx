@@ -1,4 +1,4 @@
-import Link from "next/link"; 
+import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import fs from "fs";
@@ -8,28 +8,28 @@ import matter from "gray-matter";
 // 1. FUNÇÃO QUE LÊ OS ARQUIVOS MDX (Node.js nativo rodando no servidor Next.js)
 function getUltimosArtigos() {
   const pastaConteudo = path.join(process.cwd(), 'conteudo');
-  
+
   // Se a pasta não existir ainda, retorna um array vazio para não quebrar o site
   if (!fs.existsSync(pastaConteudo)) {
     return [];
   }
 
   const arquivos = fs.readdirSync(pastaConteudo);
-  
+
   const artigos = arquivos
     .filter((arquivo) => arquivo.endsWith('.mdx')) // Pega só os .mdx
     .map((arquivo) => {
       const caminho = path.join(pastaConteudo, arquivo);
       const conteudoArquivo = fs.readFileSync(caminho, 'utf-8');
-      
+
       // O gray-matter extrai o titulo, resumo e data que estão no topo do MDX
-      const { data } = matter(conteudoArquivo); 
-      
+      const { data } = matter(conteudoArquivo);
+
       return {
         slugGerado: arquivo.replace('.mdx', ''), // Tira a extensão para virar a URL
         titulo: data.title || "Artigo sem título",
         resumo: data.resumo || "",
-        dataPublicacao: new Date(data.date || Date.now()) 
+        dataPublicacao: new Date(data.date || Date.now())
       };
     });
 
@@ -44,10 +44,10 @@ export const metadata: Metadata = {
   title: "Apartamento Novo em Anápolis - 53,45m², 2 Qts | Condomínio Arcos do Paraíso",
   description: "Oportunidade de venda rápida em Anápolis. Apartamento novo (nunca habitado) de R$ 200 mil por R$ 190.000. Quitado, escriturado e pronto para financiar ou usar FGTS.",
   keywords: [
-    "apartamento venda anapolis", 
-    "imovel anapolis 2 quartos", 
-    "condominio arcos do paraiso", 
-    "comprar primeiro apartamento", 
+    "apartamento venda anapolis",
+    "imovel anapolis 2 quartos",
+    "condominio arcos do paraiso",
+    "comprar primeiro apartamento",
     "financiamento caixa apartamento",
     "usar fgts comprar apartamento",
     "bairros anapolis valorizacao",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
 // Transformamos o Home em async para poder processar os artigos antes de renderizar
 export default async function Home() {
   const imagensGaleria = Array.from({ length: 10 }, (_, i) => `/img${i + 1}.jpeg`);
-  
+
   // Executa a função para pegar os artigos da pasta 'conteudo'
   const ultimosArtigos = getUltimosArtigos();
 
@@ -82,7 +82,7 @@ export default async function Home() {
     "name": "Apartamento Novo à Venda no Condomínio Arcos do Paraíso",
     "description": "Excelente oportunidade para morar ou investir em Anápolis. Apartamento de 53,45 m² nunca habitado, com piso amadeirado e documentação regularizada.",
     "url": "https://apartamentoanapolis.online",
-    "datePosted": "2026-06-23", 
+    "datePosted": "2026-06-23",
     "offers": {
       "@type": "Offer",
       "price": "190000",
@@ -101,7 +101,7 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen bg-zinc-50 font-sans dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 scroll-smooth">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <meta name="google-site-verification" content="3hErJbktd4G6zm-WygBd7B9euH4Ir6CnTYchqwx2wMA" />
-      
+
       {/* HEADER */}
       <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/70 dark:bg-zinc-950/70 border-b border-zinc-200 dark:border-zinc-800/50 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
@@ -119,7 +119,7 @@ export default async function Home() {
           </a>
         </div>
       </header>
-      
+
       {/* HERO SECTION */}
       <main className="flex flex-col items-center justify-center w-full pt-16 pb-12 px-6 text-center max-w-5xl mx-auto">
         <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-3 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/40 rounded-full">
@@ -142,13 +142,13 @@ export default async function Home() {
             Imóvel <strong>100% quitado</strong>, em meu nome e com certidão de matrícula regularizada.
           </p>
         </div>
-        
+
         <div className="w-full aspect-[16/10] sm:aspect-[16/9] relative rounded-3xl overflow-hidden shadow-2xl mb-12 border border-zinc-200 dark:border-zinc-800">
-           <Image src="/img1.jpeg" alt="Apartamento novo à venda em Anápolis - Condomínio Arcos do Paraíso" fill className="object-cover hover:scale-105 transition-transform duration-700" priority /> 
+          <Image src="/img1.jpeg" alt="Apartamento novo à venda em Anápolis - Condomínio Arcos do Paraíso" fill className="object-cover hover:scale-105 transition-transform duration-700" priority />
         </div>
 
         <a href="https://wa.me/5562991070509?text=Olá!%20Gostaria%20de%20receber%20mais%20informações%20sobre%20o%20apartamento%20no%20Arcos%20do%20Paraíso." target="_blank" rel="noopener noreferrer" className="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-10 rounded-full transition-all hover:scale-105 hover:shadow-green-600/20 shadow-xl text-lg flex items-center gap-2 mb-6">
-          <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.288 1.448 4.805 1.449 5.452 0 9.889-4.434 9.892-9.884.001-2.64-1.03-5.123-2.905-6.999-1.875-1.875-4.37-2.903-7.01-2.903-5.46 0-9.896 4.435-9.899 9.886-.001 1.773.49 3.51 1.42 5.037L1.24 21.147l4.145-1.087z"/></svg>
+          <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.288 1.448 4.805 1.449 5.452 0 9.889-4.434 9.892-9.884.001-2.64-1.03-5.123-2.905-6.999-1.875-1.875-4.37-2.903-7.01-2.903-5.46 0-9.896 4.435-9.899 9.886-.001 1.773.49 3.51 1.42 5.037L1.24 21.147l4.145-1.087z" /></svg>
           Negociar Direto com Proprietário
         </a>
 
@@ -213,16 +213,15 @@ export default async function Home() {
         <p className="text-zinc-500 dark:text-zinc-400 text-center mb-8">
           Condomínio Arcos do Paraíso, Anápolis - GO
         </p>
-        
+
         {/* Contêiner do Mapa */}
         <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-zinc-200 dark:bg-zinc-800 rounded-2xl overflow-hidden shadow-sm border border-zinc-200/60 dark:border-zinc-800/60 relative mb-6">
           <iframe
-            src="https://maps.app.goo.gl/RUaHH3yDsCxG34JK7"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3828.758992345353!2d-48.9212094!3d-16.3352542!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935ea5fef4108ac9%3A0x4f46819765ed2da1!2sApartamento%20An%C3%A1polis!5e0!3m2!1sen!2sbr!4v1782821341734!5m2!1sen!2sbr"
+            loading="lazy"
             width="100%"
             height="100%"
-            style={{ border: 0 }}
             allowFullScreen={true}
-            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="absolute inset-0"
           ></iframe>
@@ -236,7 +235,7 @@ export default async function Home() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full text-sm transition-transform hover:scale-105 shadow-md"
           >
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z" /></svg>
             Abrir Rota no Google Maps
           </a>
         </div>
@@ -271,13 +270,13 @@ export default async function Home() {
               </div>
             )}
           </div>
-          
+
           {ultimosArtigos.length > 0 && (
-             <div className="mt-8 text-center">
-                <Link href="/blog" className="inline-block bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-medium py-2 px-6 rounded-full text-sm transition-colors">
-                  Ver todos os artigos do Blog
-                </Link>
-             </div>
+            <div className="mt-8 text-center">
+              <Link href="/blog" className="inline-block bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-medium py-2 px-6 rounded-full text-sm transition-colors">
+                Ver todos os artigos do Blog
+              </Link>
+            </div>
           )}
         </div>
       </section>
@@ -285,7 +284,7 @@ export default async function Home() {
       {/* CTA Flutuante para Mobile */}
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 sm:hidden">
         <a href="https://wa.me/5562991070509?text=Olá!%20Gostaria%20de%20receber%20mais%20informações%20sobre%20o%20apartamento%20no%20Arcos%20do%20Paraíso." target="_blank" rel="noopener noreferrer" className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full shadow-2xl flex items-center gap-2 text-sm animate-pulse">
-          <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.288 1.448 4.805 1.449 5.452 0 9.889-4.434 9.892-9.884.001-2.64-1.03-5.123-2.905-6.999-1.875-1.875-4.37-2.903-7.01-2.903-5.46 0-9.896 4.435-9.899 9.886-.001 1.773.49 3.51 1.42 5.037L1.24 21.147l4.145-1.087z"/></svg>
+          <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.288 1.448 4.805 1.449 5.452 0 9.889-4.434 9.892-9.884.001-2.64-1.03-5.123-2.905-6.999-1.875-1.875-4.37-2.903-7.01-2.903-5.46 0-9.896 4.435-9.899 9.886-.001 1.773.49 3.51 1.42 5.037L1.24 21.147l4.145-1.087z" /></svg>
           Falar no WhatsApp
         </a>
       </div>
