@@ -126,7 +126,7 @@ export default async function Home() {
           Preço Reduzido para Venda Rápida
         </span>
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4 max-w-4xl bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
-          Apartamento Novo no Arcos do Paraíso
+          Apartamento Anápolis
         </h1>
         <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-6 max-w-xl">
           Anápolis - GO • Venda Direta com o Proprietário • Aberto a Propostas Reais
