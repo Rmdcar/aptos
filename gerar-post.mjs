@@ -61,83 +61,11 @@ function verificarMudancasGit() {
 // 3. TOPICAL AUTHORITY (Clusters de Conteúdo)
 // ---------------------------------------------------------
 const clustersDeConteudo = {
-  "Minha_Casa_Minha_Vida": [
-    "Minha Casa Minha Vida em Anapolis: Guia Completo para Comprar em 2026",
-    "Quem pode financiar pelo Minha Casa Minha Vida em Anapolis",
-    "Documentos necessarios para comprar apartamento pelo Minha Casa Minha Vida",
-    "Como funciona a entrada no Minha Casa Minha Vida",
-    "Como usar o FGTS para comprar apartamento Minha Casa Minha Vida",
-    "Quanto preciso ganhar para financiar um apartamento pela Caixa",
-    "Como simular financiamento Minha Casa Minha Vida",
-    "Quanto fica a parcela de um apartamento MRV",
-    "Vale a pena comprar apartamento pelo Minha Casa Minha Vida",
-    "Erros que podem reprovar seu financiamento imobiliario"
-  ],
+  ["ITBI em Anápolis"]: [
+    "ITbi eletrônico em Anápolis"
+    ],
 
-  "Apartamentos_MRV": [
-    "Apartamento MRV vale a pena em 2026",
-    "Como funciona a compra de um apartamento MRV",
-    "Apartamento MRV na planta ou pronto: qual escolher",
-    "Condominios MRV em Anapolis: guia completo",
-    "Custos para morar em apartamento MRV",
-    "Taxa de condominio MRV: quanto custa",
-    "Como funciona a entrega das chaves da MRV",
-    "Apartamento MRV para morar ou investir",
-    "O que verificar antes de comprar um apartamento MRV",
-    "Vantagens e desvantagens dos apartamentos MRV"
-  ],
-
-  "Financiamento_Imobiliario": [
-    "Como funciona o financiamento imobiliario Caixa",
-    "Quanto preciso dar de entrada para comprar um apartamento",
-    "Financiamento Caixa ou Itau: qual vale mais a pena",
-    "Como aumentar as chances de aprovacao no financiamento",
-    "O que diminui o valor aprovado pela Caixa",
-    "Como funciona a avaliacao do imovel pela Caixa",
-    "Posso financiar mesmo com nome negativado",
-    "Financiamento SAC ou PRICE: qual escolher",
-    "Primeiro apartamento financiado: guia completo",
-    "Tudo sobre financiamento de apartamento para iniciantes"
-  ],
-
-  "Custos_da_Compra": [
-    "Quanto custa comprar um apartamento alem da entrada",
-    "ITBI na compra do apartamento: como calcular",
-    "Registro do imovel: quanto custa",
-    "Escritura ou registro: qual a diferenca",
-    "Quais taxas devo pagar ao comprar um apartamento",
-    "Como economizar nos custos da compra do primeiro imovel",
-    "Quem paga o ITBI",
-    "Quanto custa transferir um apartamento",
-    "Checklist financeiro para comprar apartamento",
-    "Despesas mensais de quem mora em apartamento"
-  ],
-
-  "Mercado_Imobiliario_Anapolis": [
-    "Melhores bairros para comprar apartamento em Anapolis",
-    "Onde comprar apartamento barato em Anapolis",
-    "Apartamento novo ou usado em Anapolis",
-    "Bairros com maior potencial de valorizacao",
-    "Vale a pena comprar apartamento em Anapolis",
-    "Mercado imobiliario de Anapolis em 2026",
-    "Quanto custa um apartamento em Anapolis",
-    "Como escolher o melhor bairro para morar",
-    "Apartamento para investir em Anapolis",
-    "Tendencias do mercado imobiliario em Anapolis"
-  ],
-
-  "Condominio_Arcos_do_Paraiso": [
-    "Condominio Arcos do Paraiso vale a pena",
-    "Como e morar no Arcos do Paraiso",
-    "Apartamento a venda no Arcos do Paraiso",
-    "Quanto custa um apartamento no Arcos do Paraiso",
-    "Infraestrutura do Condominio Arcos do Paraiso",
-    "Taxa de condominio do Arcos do Paraiso",
-    "Seguranca do Condominio Arcos do Paraiso",
-    "Localizacao do Arcos do Paraiso",
-    "Vantagens de morar no Arcos do Paraiso",
-    "Guia completo do Condominio Arcos do Paraiso"
-  ]
+  
 };
 
 // ---------------------------------------------------------
